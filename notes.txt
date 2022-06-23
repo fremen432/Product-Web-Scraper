@@ -1,1 +1,87 @@
 tutorial video: https://www.youtube.com/watch?v=lATafp15HWA&t=1489s
+
+Applications Intentions:
+
+    Build an application that helps a user find the best price/deal for any given product they search for.
+    This app does this by searching the top 5 most popular e-commerce websites (amazon ebay, walmart, craigslist and target), finding the top 10 search results results from each website, then displaing the top 5 lowest prices for the user.
+
+    This will involve using puppeteer to search all 5 websites.
+
+    User inputs:
+
+        Product Name: "String", *required
+        Min Price: Number, (optional: defaults to 0)
+        Max Price: Number, (optional:)
+        Condition: (New or used) (optional: defaults to both (all search results))
+
+    Results:
+
+        top 10 results from each website:
+            for each result:
+                Image of product
+                Full Name
+                Price
+                Condition
+
+                (Optional)
+                Rating
+                shipping lead time
+
+
+            Amazon:
+                Image of product
+                Full Name
+                Description:
+                Price
+                Condition
+
+                (Optional)
+                Rating
+                shipping lead time
+
+            ebay:
+                Image of product
+                Full Name
+                Description:
+                Price
+                Condition
+
+                (Optional)
+                Rating
+                shipping lead time
+
+            walmart:
+                Image of product
+                Full Name
+                Description:
+                Price
+                Condition
+
+                (Optional)
+                Rating
+                shipping lead time
+
+            craigslist:
+                Image of product
+                Full Name
+                Description:
+                Price
+                Condition
+
+                (Optional)
+                Rating
+                shipping lead time
+
+            target:
+                Image of product
+                Full Name
+                Description:
+                Price
+                Condition
+
+                (Optional)
+                Rating
+                shipping lead time
+
+
+
