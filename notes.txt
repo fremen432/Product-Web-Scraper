@@ -1,5 +1,7 @@
 tutorial video: https://www.youtube.com/watch?v=lATafp15HWA&t=1489s
 
+Puppeteer documentaion: (https://github.com/puppeteer/puppeteer/blob/v14.4.1/docs/api.md#pagescreenshotoptions) 
+
 Applications Intentions:
 
     Build an application that helps a user find the best price/deal for any given product they search for.
