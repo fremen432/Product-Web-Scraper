@@ -120,7 +120,7 @@ class Search {
 			const resultArray = [];
 			const parent =
 				"div.s-main-slot.s-result-list.s-search-results.sg-row > div > div > div > div > div > div";
-			const child_price = "a > span > span.a-offscreen";
+			const selector_price = "a > span > span.a-offscreen";
 			const selector_productName = "h2 > a.s-link-style > span";
 			const selector_stars = "a > i.a-icon-star-small > span";
 			const selector_link =
@@ -135,7 +135,7 @@ class Search {
 				) {
 					const productName =
 						el.querySelector(selector_productName).textContent;
-					const price = el.querySelector(child_price).textContent;
+					const price = el.querySelector(selector_price).textContent;
 					const stars = el.querySelector(selector_stars).textContent;
 					const link = el.querySelector(selector_link).href;
 
@@ -150,29 +150,6 @@ class Search {
 
 			return resultArray;
 		});
-		// });
-		// return resObj;
-
-		// const resObj = document.querySelectorAll(parent);
-
-		// for (el of resObj) {
-		// 	if (
-		// 		!el.textContent.includes("Sponsored") &&
-		// 		el.textContent.match(/\$(\d+)\.(\d{2})/g)
-		// 	) {
-		// 		const productName = el.$(selector_productName).textContent;
-		// 		const price = el.querySelector(child_price).textContent;
-		// 		const stars = el.querySelector(selector_stars).textContent;
-		// 		const link = el.querySelector(selector_link).href;
-
-		// 		resultArray.push({
-		// 			ProductName: productName,
-		// 			Price: price,
-		// 			StarRating: stars,
-		// 			ProductLink: link,
-		// 		});
-		// 	}
-		// }
 		return results;
 	}
 	OPERATION_writeToTxtFile(data) {

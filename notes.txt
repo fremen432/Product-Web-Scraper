@@ -87,3 +87,14 @@ Applications Intentions:
 
 
 
+Things I've learned doing this project:
+
+    Writing Javascript into the browser DOM:
+        A big one is, I learned that you can type in javascript into the browser console and it will run. That sounds really stupid to specify outloud, but I never put it together unitl this project. It comes in really useful when working with the DOM. So, you can just wright "document.querySelector('selector')" and it will return that element. I found it useful with writing "document.querySelectorAll('selector)" and had it return an object with all of the matches.
+
+    Using the 'typeof' keyword before some element to understand the type of elements I'm working is really useful. 
+
+    Understanding interfaces in TypeScript, and getting my feet wet with using types. Kind of annoying how, when testing code with nodeJS you have to first compile the .ts file into a .js file using tsc. Not sure if theres an easier way to quickly test TypeScript code asside from this method.
+
+    Headless means that the browser will run in the background and it won't actually open a physicial tab on your browser when you run your puppeteer commands. 
+
