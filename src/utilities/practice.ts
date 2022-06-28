@@ -19,7 +19,7 @@ const inputs1 = {
     condition: 1
 }
 
-const search1 = new Search(inputs1)
+// const search1 = new Search(inputs1)
 
 const search_term = `${inputs1.productName}+between+$${inputs1.min_price}+and+$${inputs1.max_price}`
 

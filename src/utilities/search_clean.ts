@@ -21,9 +21,6 @@ const amazonSelector5 = "div > div > div > div > div > div.sg-col.sg-col-4-of-12
 // span containing the products price
 const amazonSelector6 = "div > div > div > div > div > div > div > div > div > div > div > div > div > a > span > span.a-offscreen"
 
-
-
-
 class Search {
     fullURL: String;
     browser: any;
