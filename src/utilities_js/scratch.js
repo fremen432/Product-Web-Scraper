@@ -1,31 +1,100 @@
-const resultArray = [];
-const parent =
-	"div.s-main-slot.s-result-list.s-search-results.sg-row > div > div > div > div > div > div";
-
-const child_price = "a > span > span.a-offscreen";
-const selector_productName = "h2 > a.s-link-style > span";
-const selector_stars = "a > i.a-icon-star-small > span";
-const selector_link =
-	"#search > div.s-desktop-width-max.s-desktop-content.s-opposite-dir.sg-row > div.s-matching-dir.sg-col-16-of-20.sg-col.sg-col-8-of-12.sg-col-12-of-16 > div > span > div.s-main-slot.s-result-list.s-search-results.sg-row > div > div > div > div > div > div > div.sg-col.sg-col-4-of-12.sg-col-4-of-16.sg-col-4-of-20.s-list-col-left > div > div.s-product-image-container.aok-relative.s-image-overlay-grey.s-text-center.s-padding-left-small.s-padding-right-small.s-flex-expand-height > div > span > a";
-
-const resObj = document.querySelectorAll(parent);
-
-for (el of resObj) {
-	if (
-		!el.textContent.includes("Sponsored") &&
-		el.textContent.match(/\$(\d+)\.(\d{2})/g)
-	) {
-		const productName = el.querySelector(selector_productName).textContent;
-		const price = el.querySelector(child_price).textContent;
-		const stars = el.querySelector(selector_stars).textContent;
-		const link = el.querySelector(selector_link).href;
-
-		resultArray.push({
-			ProductName: productName,
-			Price: price,
-			StarRating: stars,
-			ProductLink: link,
-		});
+class Store {
+	constructor(input) {
+		// let d = new Date();
+		this.purpose = "To sell people stuff";
+		this.age = new Date().getFullYear() - input.dateEstablished;
 	}
+	sayHey = () => console.log("hey");
 }
-console.log(resultArray);
+
+class Target extends Store {
+	constructor(input) {
+		super(input);
+		this.material = "Birck and Mortor";
+	}
+	sayPhrase = () => console.log(`Hey I'm TARGET`);
+}
+class Amazon extends Store {
+	constructor(input) {
+		super(input);
+		this.material = "Digital";
+	}
+	sayPhrase = () => console.log(`Hey I'm AMAZON`);
+}
+
+const newTarget = new Target({ dateEstablished: 1997 });
+const newAmazon = new Amazon({ dateEstablished: 1997 });
+
+// -- ANALYZING AMAZON PRICE RANGE AND CONDITION URL ARGUMENTS --
+
+// condition: new | range: $500 -
+const amazonLink1 = `
+https://www.amazon.com/
+s?k=iphone
+&rh=p_36%3A50000-
+%2C
+p_n_condition-type%3ANew
+&dc
+&ds=v1%3Auhn78W8o1hAbFQ%2BnS9sOeBP0jXxz8A2jZtMm9W5ApJs&qid=1656463313
+&ref=sr_nr_p_n_condition-type_1`;
+
+const amazonLink2 = `
+https://www.amazon.com/
+s?k=iphone
+&crid=1VA0KSHFUPDKA
+&sprefix=iphone%2Caps%2C108
+&ref=nb_sb_noss_2`;
+// condition: new | no price range
+const amazonLink3 = `
+https://www.amazon.com/
+s?k=iphone
+&rh=
+p_n_condition-type%3ANew
+&dc
+&crid=1VA0KSHFUPDKA&qid=1656463903
+&sprefix=iphone%2Caps%2C108
+&ref=sr_nr_p_n_condition-type_1
+&ds=v1%3A4DOWZdKZt1YXSQvxifM4OxITAupeFaa%2Ffn%2F0nj3riQo`;
+// condition: renewed | no price range
+const amazonLink4 = `
+https://www.amazon.com/
+s?k=iphone
+&rh=
+p_n_condition-type%3ACertified+Refurbished
+&dc
+&crid=1VA0KSHFUPDKA
+&qid=1656463968
+&sprefix=iphone%2Caps%2C108
+&ref=sr_nr_p_n_condition-type_2
+&ds=v1%3AzO6JUEGBKgnXAMvu8oOUb4Gr3O2haO%2F8d2lKomxKLvs`;
+// condition: used | no price range
+const amazonLink5 = `
+https://www.amazon.com/
+s?k=iphone
+&rh=
+p_n_condition-type%3AUsed
+&dc
+&crid=1VA0KSHFUPDKA
+&qid=1656464265
+&sprefix=iphone%2Caps%2C108
+&ref=sr_nr_p_n_condition-type_3
+&ds=v1%3A%2BShrGVWSzHZ8S7z%2BOWTcSm9KCIigzLrNn3XxuyJ2M6c`;
+// condition: none | no price range
+const amazonLink6 = `
+https://www.amazon.com/
+s?k=iphone
+&crid=3TML4ZZLE2R89
+&sprefix=iphone%2Caps%2C122
+&ref=nb_sb_noss_1`;
+// condition: renewed | range: $300-$400
+const amazonLink6 = `
+https://www.amazon.com/
+s?k=iphone
+&rh=p_36%3A30000-40000
+%2C
+p_n_condition-type%3ACertified+Refurbished
+&dc
+&crid=3TML4ZZLE2R89&qid=1656464435
+&sprefix=iphone%2Caps%2C122
+&ref=sr_nr_p_n_condition-type_2
+&ds=v1%3AKfnS3LKz0gT70XVdQOtX1RTV0kRxaZ4egmFARNgLC7k`;
