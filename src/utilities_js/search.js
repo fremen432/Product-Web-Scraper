@@ -20,28 +20,26 @@ const consolidateSearches = async (searchQueries) => {
 	const search_Target = new TargetSearch(searchQueries);
 	const search_Walmart = new WalmartSearch(searchQueries);
 
-	const results_Amazon = await search_Amazon.getProductInfo();
-	// const results_Amazon = await search_Amazon.getScreenShot_fullpage();
-	// const results_Amazon = search_Amazon.printURL();
-
-	// const results_Ebay = search_Ebay.printURL();
+	// const results_Amazon = await search_Amazon.getProductInfo();
 	// const results_Ebay = await search_Ebay.getProductInfo();
-	// console.log(search_Ebay.min_price);
 
-	// return results_Amazon;
+	const results_Craigslist = await search_Craigslist.getProductInfo();
+	// const results_Target = await results_Target.getProductInfo();
+	// const results_Walmart = await search_Walmart.getProductInfo();
+
 	return {
-		AmazonResults: results_Amazon,
+		// AmazonResults: results_Amazon,
 		// EbayResults: results_Ebay,
-		// CraigslistResults: searchResults_Craigslist,
-		// TargetResults: searchResults_Target,
-		// WalmartResults: searchResults_Walmart,
+		CraigslistResults: results_Craigslist,
+		// TargetResults: results_Target,
+		// WalmartResults: results_Walmart,
 	};
 };
 
 const searchInputs1 = {
 	// webSite: AMAZON,
-	productName: "iphone",
-	min_price: "500",
+	productName: "apple imac",
+	min_price: "",
 	max_price: "",
 	condition: "New",
 
@@ -49,6 +47,7 @@ const searchInputs1 = {
 		Might want to add:
 			amazon prime available
 			number of ratings
+			choose name brand
 	*/
 };
 

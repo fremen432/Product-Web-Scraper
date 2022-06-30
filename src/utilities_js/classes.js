@@ -45,7 +45,7 @@ export class Search {
 
 		// this.webSite = inputs.webSite;
 		this.productName_string = string;
-		this.productName_url = string.replace(" ", "+");
+		this.productName_url = string.split(" ").join("+");
 		this.min_price = inputs.min_price;
 		this.max_price = inputs.max_price;
 
@@ -204,14 +204,11 @@ export class AmazonSearch extends Search {
 		const findCondition = (input) => {
 			switch (input) {
 				case "New":
-					return 1000;
-				case "Open Box":
-					return 1500;
+					return "New";
+				case "Certified Refurbished":
+					return "Certified+Refurbished";
 				case "Used":
-					return 3000;
-				case "Seller Refurbished":
-					return 2500;
-
+					return "Used";
 				default:
 					"";
 			}
@@ -223,11 +220,14 @@ export class AmazonSearch extends Search {
 		const max_price_string =
 			this.max_price == "" ? "" : this.max_price + "00";
 
-		this.fullURL = `https://www.amazon.com/s?k=${this.productName_url}&rh=p_36%3A${min_price_string}-${max_price_string}`;
+		const priceRange = `p_36%3A${min_price_string}-${max_price_string}%2c`;
+		const condition = `p_n_condition-type%3A${this.condition}&dc`;
+
+		this.fullURL = `https://www.amazon.com/s?k=${
+			this.productName_url
+		}&rh=${priceRange}${this.condition ? condition : ""}`;
 	}
 	async OPERATION_getProductInfo() {
-		// first select all $$eval(item selector) to get every product on the page, then for each item, select the price $eval(price selector)
-
 		return await this.page.evaluate(() => {
 			const resultArray = [];
 			const selector_productWrapper =
@@ -244,35 +244,38 @@ export class AmazonSearch extends Search {
 			const resObj = document.querySelectorAll(selector_productWrapper);
 
 			for (el of resObj) {
-				if (
-					!el.textContent.includes("Sponsored") &&
-					!el.textContent.includes("Sponsored") &&
-					// matches [$300.00] price
-					el.textContent.match(/\$(\d+)\.(\d{2})/g)
-				) {
-					const productName =
-						el.querySelector(selector_productName).textContent;
-					const price = el.querySelector(selector_price).textContent;
-					const stars = el.querySelector(selector_stars).textContent;
-					const link = el.querySelector(selector_link)
-						? el.querySelector(selector_link).href
-						: "No link";
-					const primeShipping = el.querySelector(selector_link)
-						? true
-						: false;
-					const reviewCount = el.querySelector(selector_reviewCount)
-						? el.querySelector(selector_reviewCount).textContent
-						: "No reviews";
+				const productName = el.querySelector(selector_productName)
+					? el.querySelector(selector_productName).textContent
+					: "No product name Found";
 
-					resultArray.push({
-						ProductName: productName,
-						Price: price,
-						StarRating: stars,
-						ReviewCount: reviewCount,
-						ProductLink: link,
-						PrimeShipping: primeShipping,
-					});
-				}
+				const price = el.querySelector(selector_price)
+					? el.querySelector(selector_price).textContent
+					: "No price found";
+
+				const stars = el.querySelector(selector_stars)
+					? el.querySelector(selector_stars).textContent
+					: "No stars found";
+
+				const link = el.querySelector(selector_link)
+					? el.querySelector(selector_link).href
+					: "No link found";
+
+				const primeShipping = el.querySelector(selector_primeShipping)
+					? true
+					: false;
+
+				const reviewCount = el.querySelector(selector_reviewCount)
+					? el.querySelector(selector_reviewCount).textContent
+					: "No reviews found";
+
+				resultArray.push({
+					ProductName: productName,
+					Price: price,
+					StarRating: stars,
+					ReviewCount: reviewCount,
+					ProductLink: link,
+					PrimeShipping: primeShipping,
+				});
 			}
 
 			return resultArray;
@@ -284,9 +287,10 @@ export class AmazonSearch extends Search {
 			.then(() => this.OPERATION_getProductInfo())
 			.then((result) => {
 				this.disConnect();
-				console.log("-- DONE --");
+				console.log("-- AMAZON SEARCH DONE --");
 				return result.filter((value, i) => i <= 4);
 			});
+		// .then(() => this.printURL());
 	}
 }
 export class EbaySearch extends Search {
@@ -312,8 +316,6 @@ export class EbaySearch extends Search {
 		this.fullURL = `https://www.ebay.com/sch/i.html?&_nkw=${this.productName_url}&_udlo=${this.min_price}&_udhi=${this.max_price}&LH_ItemCondition=${this.condition}`;
 	}
 	async OPERATION_getProductInfo() {
-		// first select all $$eval(item selector) to get every product on the page, then for each item, select the price $eval(price selector)
-
 		return await this.page.evaluate(() => {
 			const resultArray = [];
 			const selector_productWrapper =
@@ -331,36 +333,38 @@ export class EbaySearch extends Search {
 			const resObj = document.querySelectorAll(selector_productWrapper);
 
 			for (el of resObj) {
-				if (
-					true
-					// !el.textContent.includes("Sponsored") &&
-					// !el.textContent.includes("Sponsored") &&
-					// // matches [$300.00] price
-					// el.textContent.match(/\$(\d+)\.(\d{2})/g)
-				) {
-					const productName =
-						el.querySelector(selector_productName).textContent;
-					const price = el.querySelector(selector_price).innerText;
-					const stars = el.querySelector(selector_stars)
-						? el.querySelector(selector_stars).textContent
-						: "No star rating";
-					const link = el.querySelector(selector_link).href;
-					const reviewCount = el.querySelector(selector_reviewCount)
-						? el.querySelector(selector_reviewCount).innerText
-						: "No reviewCount";
-					const shipping = el.querySelector(selector_shipping)
-						? el.querySelector(selector_shipping).textContent
-						: "No Shipping Info";
+				const productName = el.querySelector(selector_productName)
+					? el.querySelector(selector_productName).textContent
+					: "No product name found";
 
-					resultArray.push({
-						ProductName: productName,
-						Price: price,
-						StarRating: stars,
-						ReviewCount: reviewCount,
-						ShippingCost: shipping,
-						ProductLink: link,
-					});
-				}
+				const price = el.querySelector(selector_price)
+					? el.querySelector(selector_price).innerText
+					: "No price found";
+
+				const stars = el.querySelector(selector_stars)
+					? el.querySelector(selector_stars).textContent
+					: "No star rating found";
+
+				const link = el.querySelector(selector_link)
+					? el.querySelector(selector_link).href
+					: "No link found";
+
+				const reviewCount = el.querySelector(selector_reviewCount)
+					? el.querySelector(selector_reviewCount).innerText
+					: "No review count found";
+
+				const shipping = el.querySelector(selector_shipping)
+					? el.querySelector(selector_shipping).textContent
+					: "No shipping information found";
+
+				resultArray.push({
+					ProductName: productName,
+					Price: price,
+					StarRating: stars,
+					ReviewCount: reviewCount,
+					ShippingCost: shipping,
+					ProductLink: link,
+				});
 			}
 
 			return resultArray;
@@ -372,12 +376,99 @@ export class EbaySearch extends Search {
 			.then(() => this.OPERATION_getProductInfo())
 			.then((result) => {
 				this.disConnect();
-				console.log("-- DONE --");
+				console.log("-- EBAY SEARCH DONE --");
 				return result.filter((value, i) => i <= 4);
 			});
 	}
 }
-export class CraigslistSearch extends Search {}
+export class CraigslistSearch extends Search {
+	constructor(inputs) {
+		super(inputs);
+		this.webSite = EBAY;
+		const findCondition = (input) => {
+			switch (input) {
+				case "New":
+					return 1000;
+				case "Open Box":
+					return 1500;
+				case "Used":
+					return 3000;
+				case "Seller Refurbished":
+					return 2500;
+
+				default:
+					"";
+			}
+		};
+		this.condition = findCondition(inputs.condition);
+		this.fullURL = `https://www.ebay.com/sch/i.html?&_nkw=${this.productName_url}&_udlo=${this.min_price}&_udhi=${this.max_price}&LH_ItemCondition=${this.condition}`;
+	}
+	async OPERATION_getProductInfo() {
+		return await this.page.evaluate(() => {
+			const resultArray = [];
+			const selector_productWrapper =
+				"#srp-river-results > ul.srp-results > li.s-item";
+			const selector_price = "div.s-item__detail > span.s-item__price";
+			const selector_productName =
+				"div.s-item__info.clearfix > a > h3.s-item__title";
+			const selector_stars = "a > div.x-star-rating > span.clipped";
+			const selector_link = "div.s-item__info > a.s-item__link";
+			const selector_shipping =
+				"div.s-item__info.clearfix > div.s-item__details.clearfix > div.s-item__detail > span.s-item__shipping";
+			const selector_reviewCount =
+				"div.s-item__reviews > a > span.s-item__reviews-count > span";
+
+			const resObj = document.querySelectorAll(selector_productWrapper);
+
+			for (el of resObj) {
+				const productName = el.querySelector(selector_productName)
+					? el.querySelector(selector_productName).textContent
+					: "No product name found";
+
+				const price = el.querySelector(selector_price)
+					? el.querySelector(selector_price).innerText
+					: "No price found";
+
+				const stars = el.querySelector(selector_stars)
+					? el.querySelector(selector_stars).textContent
+					: "No star rating found";
+
+				const link = el.querySelector(selector_link)
+					? el.querySelector(selector_link).href
+					: "No link found";
+
+				const reviewCount = el.querySelector(selector_reviewCount)
+					? el.querySelector(selector_reviewCount).innerText
+					: "No review count found";
+
+				const shipping = el.querySelector(selector_shipping)
+					? el.querySelector(selector_shipping).textContent
+					: "No shipping information found";
+
+				resultArray.push({
+					ProductName: productName,
+					Price: price,
+					StarRating: stars,
+					ReviewCount: reviewCount,
+					ShippingCost: shipping,
+					ProductLink: link,
+				});
+			}
+
+			return resultArray;
+		});
+	}
+	async getProductInfo() {
+		return this.connect()
+			.then(() => console.log("-- CONNECTED --"))
+			.then(() => this.OPERATION_getProductInfo())
+			.then((result) => {
+				this.disConnect();
+				console.log("-- CRAIGSLIST SEARCH DONE --");
+				return result.filter((value, i) => i <= 4);
+			});
+	}
+}
 export class TargetSearch extends Search {}
 export class WalmartSearch extends Search {}
 
