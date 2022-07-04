@@ -21,24 +21,33 @@ const consolidateSearches = async (searchQueries) => {
 	const search_Walmart = new WalmartSearch(searchQueries);
 
 	// const results_Amazon = await search_Amazon.getProductInfo();
+
 	// const results_Ebay = await search_Ebay.getProductInfo();
 
-	const results_Craigslist = await search_Craigslist.getProductInfo();
-	// const results_Target = await results_Target.getProductInfo();
-	// const results_Walmart = await search_Walmart.getProductInfo();
+	// const results_Craigslist = await search_Craigslist.getProductInfo();
+
+	const results_Target = await search_Target.getProductInfo();
+	// const results_Target = await search_Target.getScreenShot_fullpage();
+	// const url_Target = await search_Target.printURL();
+
+	// const results_Walmart = await search_Walmart.getScreenShot_fullpage();
+	// const url_Walmart = search_Walmart.printURL();
 
 	return {
 		// AmazonResults: results_Amazon,
 		// EbayResults: results_Ebay,
-		CraigslistResults: results_Craigslist,
-		// TargetResults: results_Target,
+		// CraigslistResults: results_Craigslist,
+		TargetResults: results_Target,
+		// TargetResults: url_Target,
+
 		// WalmartResults: results_Walmart,
+		// WalmartResults: url_Walmart,
 	};
 };
 
 const searchInputs1 = {
 	// webSite: AMAZON,
-	productName: "apple imac",
+	productName: "pull up bar",
 	min_price: "",
 	max_price: "",
 	condition: "New",

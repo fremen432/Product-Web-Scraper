@@ -98,3 +98,9 @@ Things I've learned doing this project:
 
     Headless means that the browser will run in the background and it won't actually open a physicial tab on your browser when you run your puppeteer commands. 
 
+    Jul,4 : 
+        I'm starting to run into an issue of sites blocking my searches. Didn't anticipate runing into this problem. I might have to modify my application to utilize web scraping as well as search APIs.
+
+        I tried using the puppeteerExtra node module with the stealth mode plugin, but it didn't work.
+
+
