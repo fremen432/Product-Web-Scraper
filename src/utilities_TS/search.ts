@@ -1,19 +1,7 @@
-import puppeteer from "puppeteer";
-import * as fs from "fs";
+import { Search, AmazonSearch, EbaySearch, CraigslistSearch, TargetSearch, WalmartSearch } from "./classes.js";
+import { Inputs } from "./interfaces.js";
 
-// import { AMAZON, EBAY, WALMART, CRAIGSLIST, TARGET } from "./constants.js";
-import {
-	Search,
-	AmazonSearch,
-	EbaySearch,
-	CraigslistSearch,
-	TargetSearch,
-	WalmartSearch,
-} from "./classes.js";
-
-const consolidateSearches = async (searchQueries) => {
-	// const search_Amazon = new Search(searchQueries);
-
+const consolidateSearches = async (searchQueries: Inputs) => {
 	const search_Amazon = new AmazonSearch(searchQueries);
 	const search_Ebay = new EbaySearch(searchQueries);
 	const search_Craigslist = new CraigslistSearch(searchQueries);

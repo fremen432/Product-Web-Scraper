@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import MyForm from './components/MyForm'
 
 function App() {
   const [name, setName] = useState('')
@@ -17,7 +18,9 @@ function App() {
       salvage: 6
 
   */
-  return <h1>Hi</h1>
+  return (
+    <MyForm />
+  )
 }
 
 export default App
